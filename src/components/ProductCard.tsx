@@ -48,7 +48,7 @@ export default function ProductCard(
                     }
                 />
                 <CardContent>
-                    <Typography variant="h6" color="text.secondary">
+                    <Typography data-testid="product-price" variant="h6" color="text.secondary">
                         {product.price}€
                     </Typography>
                 </CardContent>
