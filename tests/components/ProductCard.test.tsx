@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import ProductCard from '../../src/components/ProductCard';
-import { Product } from '../../src/api/get_products';
+import Product from '../../src/types/product';
 
 test('renders the ProductCard with favorite', () => {
+
     const product: Product = {
         id: 1,
         title: 'Product 1',
