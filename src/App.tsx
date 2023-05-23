@@ -1,66 +1,72 @@
-import { useEffect, useState } from 'react'
-import { getProducts, Product } from './api/get_products'
-import './App.css'
+import { useEffect, useState } from 'react';
+import './App.css';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import ProductCard from './components/ProductCard'
 import Box from '@mui/material/Box';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { toggleFavorit as apiToggleFavorite, getFavoritsAsync } from './api/favorits';
+import { getProducts } from './api/get_products';
+import { toggleFavorite as apiToggleFavorite, getFavoritesAsync } from './api/favorites';
+import ProductCard from './components/ProductCard';
+import Product from './types/product';
 
-
+type SortOrder = 'ASC' | 'DESC' | 'NONE';
 
 function App() {
   const [products, setProducts] = useState<Product[]>([]);
   const [favorites, setFavorites] = useState<number[]>([]);
-  const [showOnlyFavorites, setShowOnlyFavorites] = useState<boolean>(false)
-  const [sortOrder, setSortOrder] = useState<"ASC" | "DESC" | "NONE">("NONE");
+  const [showOnlyFavorites, setShowOnlyFavorites] = useState(false);
+  const [sortOrder, setSortOrder] = useState<SortOrder>('NONE');
 
   useEffect(() => {
     getProducts(setProducts);
-    getFavoritsAsync(setFavorites);
+    getFavoritesAsync(setFavorites);
   }, []);
 
   const toggleFavorite = (productId: number) => {
-    apiToggleFavorite(productId, (favorites) => {
-      setFavorites(favorites)
-    })
+    apiToggleFavorite(productId, (updatedFavorites) => {
+      setFavorites(updatedFavorites);
+    });
   };
 
-  const sortProducts = (products: Product[]) => {
+  const sortProducts = (products: Product[]): Product[] => {
     switch (sortOrder) {
-      case "ASC":
+      case 'ASC':
         return [...products].sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-      case "DESC":
+      case 'DESC':
         return [...products].sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
-      case "NONE":
+      case 'NONE':
       default:
         return products;
     }
-  }
+  };
 
-  let displayProducts = showOnlyFavorites
+  const displayProducts = showOnlyFavorites
     ? products.filter((product) => favorites.includes(product.id))
     : products;
 
-  displayProducts = sortProducts(displayProducts);
+  const sortedProducts = sortProducts(displayProducts);
+
+  const toggleFavoritesDisplay = () => {
+    setShowOnlyFavorites(!showOnlyFavorites);
+  };
+
+  const handleSortOrderChange = (event: SelectChangeEvent<SortOrder>) => {
+    setSortOrder(event.target.value as SortOrder);
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Button onClick={() => { setShowOnlyFavorites(!showOnlyFavorites) }} >{showOnlyFavorites ? "Alle Anzeigen" : "Nur Favoriten anzeigen"}</Button>
-      <Select
-        value={sortOrder}
-        onChange={(event: SelectChangeEvent<"ASC" | "DESC" | "NONE">) =>
-          setSortOrder(event.target.value as "ASC" | "DESC" | "NONE")}
-        displayEmpty
-      >
+      <Button onClick={toggleFavoritesDisplay}>
+        {showOnlyFavorites ? 'Alle Anzeigen' : 'Nur Favoriten anzeigen'}
+      </Button>
+      <Select value={sortOrder} onChange={handleSortOrderChange} displayEmpty>
         <MenuItem value="NONE">Keine Sortierung</MenuItem>
         <MenuItem value="ASC">Aufsteigend</MenuItem>
         <MenuItem value="DESC">Absteigend</MenuItem>
       </Select>
       <Grid justifyContent="center" container spacing={2} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {displayProducts.map((product) => (
+        {sortedProducts.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
@@ -70,7 +76,7 @@ function App() {
         ))}
       </Grid>
     </Box>
-  )
+  );
 }
 
-export default App
+export default App;

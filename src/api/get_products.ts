@@ -1,10 +1,4 @@
-export interface Product {
-    id: number;
-    title: string;
-    price: string;
-    image: string;
-}
-
+import Product from "../types/product";
 
 export function getProducts(callback: (products: [Product]) => void) {
     fetch('https://fakestoreapi.com/products')

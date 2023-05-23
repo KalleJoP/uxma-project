@@ -1,13 +1,13 @@
-import { Product } from "../api/get_products"
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Product from "../types/product";
+import { Card, CardHeader, CardMedia, CardContent, IconButton, Typography, Grid } from '@mui/material';
+import { Favorite as FavoriteIcon, FavoriteBorder as FavoriteBorderIcon } from '@mui/icons-material';
+
+
+interface ProductCardProps {
+    product: Product;
+    toggleFavorite: (productId: number) => void;
+    isFavorite: boolean;
+}
 
 function RenderFavoriteIcon({ isFavorit }: { isFavorit: boolean }) {
     if (isFavorit) {
@@ -16,11 +16,6 @@ function RenderFavoriteIcon({ isFavorit }: { isFavorit: boolean }) {
     return <FavoriteBorderIcon />
 }
 
-type ProductCardProps = {
-    product: Product,
-    toggleFavorite: (productId: number) => void,
-    isFavorite: boolean
-}
 
 
 export default function ProductCard(

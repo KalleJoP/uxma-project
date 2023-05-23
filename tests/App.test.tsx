@@ -3,10 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { act } from 'react-dom/test-utils';
 import App from '../src/App'
 import { getProducts } from '../src/api/get_products'
-import { toggleFavorit as apiToggleFavorite, getFavoritsAsync } from '../src/api/favorits';
 
 jest.mock('../src/api/get_products');
-jest.mock('../src/api/favorits');
 
 const products = [
     {
@@ -34,9 +32,6 @@ beforeEach(() => {
     (getProducts as jest.Mock).mockImplementation((callback) => {
         callback(products);
     });
-
-    (getFavoritsAsync as jest.Mock).mockResolvedValue([]);
-    (apiToggleFavorite as jest.Mock).mockResolvedValue([]);
 });
 
 test('renders the App without crashing', () => {
