@@ -7,7 +7,7 @@ test('renders the ProductCard with favorite', () => {
     const product: Product = {
         id: 1,
         title: 'Product 1',
-        price: '10',
+        price: 10,
         image: 'image.jpg',
     };
 
@@ -29,7 +29,7 @@ test('renders the ProductCard without favorite', () => {
     const product: Product = {
         id: 1,
         title: 'Product 1',
-        price: '10',
+        price: 10,
         image: 'image.jpg',
     };
 

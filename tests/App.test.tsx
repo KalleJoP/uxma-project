@@ -10,19 +10,19 @@ const products = [
     {
         id: 1,
         title: 'Product 1',
-        price: '100',
+        price: 100,
         image: 'image1.jpg',
     },
     {
         id: 2,
         title: 'Product 2',
-        price: '200',
+        price: 200,
         image: 'image2.jpg',
     },
     {
         id: 3,
         title: 'Product 3',
-        price: '300',
+        price: 300,
         image: 'image3.jpg',
     },
 ];
@@ -64,7 +64,7 @@ test('sort products', async () => {
     });
 
     const displayedProducts = screen.getAllByTestId('product-price');
-    const expectedPrices = products.map((product) => parseInt(product.price));
+    const expectedPrices = products.map((product) => product.price);
     displayedProducts.forEach((product, index) => {
         expect(product).toHaveTextContent(expectedPrices[index].toString());
     });
