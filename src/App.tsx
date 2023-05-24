@@ -32,9 +32,9 @@ function App() {
   const sortProducts = (products: Product[]): Product[] => {
     switch (sortOrder) {
       case 'ASC':
-        return [...products].sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+        return [...products].sort((a, b) => a.price - b.price);
       case 'DESC':
-        return [...products].sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+        return [...products].sort((a, b) => b.price - a.price);
       case 'NONE':
       default:
         return products;
