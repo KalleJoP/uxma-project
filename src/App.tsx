@@ -57,22 +57,25 @@ function App() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Button onClick={toggleFavoritesDisplay}>
-        {showOnlyFavorites ? 'Alle Anzeigen' : 'Nur Favoriten anzeigen'}
-      </Button>
-      <Select value={sortOrder} onChange={handleSortOrderChange} displayEmpty>
-        <MenuItem value="NONE">Keine Sortierung</MenuItem>
-        <MenuItem value="ASC">Aufsteigend</MenuItem>
-        <MenuItem value="DESC">Absteigend</MenuItem>
-      </Select>
-      <Grid justifyContent="center" container spacing={2} columns={{ xs: 4, sm: 8, md: 12 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between", padding: 2 }}>
+        <Button variant="outlined" onClick={toggleFavoritesDisplay}>
+          {showOnlyFavorites ? 'Alle Anzeigen' : 'Nur Favoriten anzeigen'}
+        </Button>
+        <Select value={sortOrder} onChange={handleSortOrderChange} displayEmpty>
+          <MenuItem value="NONE">Keine Sortierung</MenuItem>
+          <MenuItem value="ASC">Aufsteigend</MenuItem>
+          <MenuItem value="DESC">Absteigend</MenuItem>
+        </Select>
+      </Box>
+      <Grid sx={{ padding: 2 }} justifyContent="center" container rowSpacing={5} columnSpacing={{ xs: 1, sm: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {sortedProducts.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            toggleFavorite={toggleFavorite}
-            isFavorite={favorites.includes(product.id)}
-          />
+          <Grid key={product.id} item xs={3}>
+            <ProductCard
+              product={product}
+              toggleFavorite={toggleFavorite}
+              isFavorite={favorites.includes(product.id)}
+            />
+          </Grid >
         ))}
       </Grid>
     </Box>
